@@ -1,0 +1,8 @@
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\PottyTrace\obj\Debug\PottyTrace.Properties.Resources.resources
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\PottyTrace\obj\Debug\PottyTrace.csproj.GenerateResource.Cache
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\PottyTrace\obj\Debug\PottyTrace.csprojResolveAssemblyReference.cache
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\PottyTrace\bin\Debug\PottyTrace.dll.config
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\PottyTrace\bin\Debug\PottyTrace.dll
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\PottyTrace\bin\Debug\PottyTrace.pdb
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\PottyTrace\obj\Debug\PottyTrace.dll
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\PottyTrace\obj\Debug\PottyTrace.pdb

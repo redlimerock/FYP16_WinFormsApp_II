@@ -1,0 +1,8 @@
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\Matrix\obj\Debug\ImgEdgeDetection.csprojResolveAssemblyReference.cache
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\Matrix\obj\Debug\Matrix.Properties.Resources.resources
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\Matrix\obj\Debug\ImgEdgeDetection.csproj.GenerateResource.Cache
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\Matrix\bin\Debug\Matrix.dll.config
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\Matrix\bin\Debug\Matrix.dll
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\Matrix\bin\Debug\Matrix.pdb
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\Matrix\obj\Debug\Matrix.dll
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\Matrix\obj\Debug\Matrix.pdb

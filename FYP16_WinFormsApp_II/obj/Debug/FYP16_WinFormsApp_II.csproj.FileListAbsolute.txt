@@ -1,0 +1,11 @@
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\FYP16_WinFormsApp_II\bin\Debug\FYP16_WinFormsApp_II.exe.config
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\FYP16_WinFormsApp_II\bin\Debug\FYP16_WinFormsApp_II.exe
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\FYP16_WinFormsApp_II\bin\Debug\FYP16_WinFormsApp_II.pdb
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\FYP16_WinFormsApp_II\obj\Debug\FYP16_WinFormsApp_II.csprojResolveAssemblyReference.cache
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\FYP16_WinFormsApp_II\obj\Debug\FYP16_WinFormsApp_II.Form1.resources
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\FYP16_WinFormsApp_II\obj\Debug\FYP16_WinFormsApp_II.Properties.Resources.resources
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\FYP16_WinFormsApp_II\obj\Debug\FYP16_WinFormsApp_II.csproj.GenerateResource.Cache
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\FYP16_WinFormsApp_II\obj\Debug\FYP16_WinFormsApp_II.exe
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\FYP16_WinFormsApp_II\obj\Debug\FYP16_WinFormsApp_II.pdb
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\FYP16_WinFormsApp_II\bin\Debug\PottyTrace.dll
+c:\users\kenpoon\documents\visual studio 2013\Projects\FYP16_WinFormsApp_II\FYP16_WinFormsApp_II\bin\Debug\PottyTrace.pdb
