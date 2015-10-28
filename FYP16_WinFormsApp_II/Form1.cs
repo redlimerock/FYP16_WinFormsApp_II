@@ -108,7 +108,7 @@ namespace FYP16_WinFormsApp_II
 
                     float factor = 1;
                     if (checkBox2.Checked)
-                        factor = (trackBar1.Value + 1);
+                        factor = (trackBar2.Value + 1);
                     for (int k = 0; k < Curves.Length; k++)
                     {
                         g.FillRectangle(Brushes.Yellow, (float)((Curves[k].A.x) * factor - 1.5), (float)((Curves[k].A.y) * factor - 1.5), 3, 3);
@@ -121,6 +121,8 @@ namespace FYP16_WinFormsApp_II
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// 
+        Bitmap Bitmap; //<<----------------------- this
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -146,16 +148,16 @@ namespace FYP16_WinFormsApp_II
         private void refreshPicture()
         {
             if (Matrix == null) return;
-            /*if (radioButton2.Checked)
+            if (radioButton1.Checked)
             {
                 Bitmap B = Potrace.BinaryToBitmap(Matrix, true);
                 pictureBox1.Width = B.Width * (trackBar1.Value + 1);
                 pictureBox1.Height = B.Height * (trackBar1.Value + 1);
                 pictureBox1.Image = B;
-            }*/
+            }
             else
             {
-                Bitmap B = new Bitmap(Matrix.GetLength(0) * (trackBar1.Value + 1), Matrix.GetLength(1) * (trackBar1.Value + 1));
+                Bitmap B = new Bitmap(Matrix.GetLength(0) * (trackBar2.Value + 1), Matrix.GetLength(1) * (trackBar2.Value + 1));
                 pictureBox1.Width = B.Width;
                 pictureBox1.Height = B.Height;
                 pictureBox1.Image = B;
@@ -166,14 +168,14 @@ namespace FYP16_WinFormsApp_II
         private void refreshMatrix()
         {
             if (Bitmap == null) return;
-            Matrix = Potrace.BitMapToBinary(Bitmap, trackBar1.Value);
+            Matrix = Potrace.BitMapToBinary(Bitmap, trackBar2.Value);
             refreshPicture();
 
         }
 
         bool[,] Matrix;
         ArrayList ListOfCurveArray;
-        Bitmap Bitmap;
+        
 
         /// <summary>
         /// Vectorize 
@@ -203,7 +205,7 @@ namespace FYP16_WinFormsApp_II
             //optimize the path p, replacing sequences of Bezier segments by a
             //single segment when possible.
             Potrace.curveoptimizing = true; //checkBox4.Checked;
-            Matrix = Potrace.BitMapToBinary(Bitmap, trackBar1.Value);
+            Matrix = Potrace.BitMapToBinary(Bitmap, trackBar2.Value);
             Potrace.potrace_trace(Matrix, ListOfCurveArray);
             refreshMatrix();
           
@@ -294,20 +296,10 @@ namespace FYP16_WinFormsApp_II
         {
             ApplyFilter(true);
         }
-        /// <summary>
-        /// trackbar
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            refreshMatrix();
-            float p = 100 * (float)trackBar1.Value / (float)255;
-            //textBox1.Text = p.ToString("00");
-        }
+        
         private void Form1_Load(object sender, EventArgs e)
         {
-            float p = 100 * (float)trackBar1.Value / (float)255;
+            float p = 100 * (float)trackBar2.Value / (float)255;
             //textBox1.Text = p.ToString("00");
             textBox1.Text = Potrace.turdsize.ToString();
             textBox3.Text = Potrace.alphamax.ToString();
@@ -324,5 +316,27 @@ namespace FYP16_WinFormsApp_II
         {
             refreshPicture();
         }
+        /// <summary>
+        /// trackbar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void trackBar1_Scroll_1(object sender, EventArgs e)
+        {
+            refreshPicture();
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            refreshMatrix();
+            float p = 100 * (float)trackBar2.Value / (float)255;
+            //textBox1.Text = p.ToString("00");
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            refreshPicture();
+        }
+
     }
 }
