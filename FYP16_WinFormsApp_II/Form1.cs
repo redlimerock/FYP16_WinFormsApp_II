@@ -34,7 +34,6 @@ namespace FYP16_WinFormsApp_II
 
         {
             InitializeComponent();
-
             cmbEdgeDetection.SelectedIndex = 0; /*edge detection*/
         }
         /// <summary>
@@ -43,6 +42,60 @@ namespace FYP16_WinFormsApp_II
         private Bitmap originalBitmap = null;
         private Bitmap previewBitmap = null;
         private Bitmap resultBitmap = null;
+
+        private void ApplyFilter(bool preview)
+        {
+            if (pictureBox1 == null || cmbEdgeDetection.SelectedIndex == -1)
+            {
+                return;
+            }
+
+            Bitmap selectedSource = null;
+            Bitmap bitmapResult = null;
+
+            if (preview == true)
+            {
+                selectedSource = previewBitmap;
+            }
+            else
+            {
+                selectedSource = originalBitmap;
+            }
+
+            if (selectedSource != null)
+            {
+                if (cmbEdgeDetection.SelectedItem.ToString() == "Img Convolution Filter")
+                {
+                    bitmapResult = selectedSource;
+                }
+                else if (cmbEdgeDetection.SelectedItem.ToString() == "Laplacian 3x3")
+                {
+                    bitmapResult = selectedSource.Laplacian3x3Filter(false);
+                }
+
+            }
+
+            if (bitmapResult != null)
+            {
+                if (preview == true)
+                {
+                    pictureBox1.Image = bitmapResult;
+                }
+                else
+                {
+                    resultBitmap = bitmapResult;
+                }
+            }
+        }
+        /// <summary>
+        /// Dropdown selection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbEdgeDetection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyFilter(true);
+        }
 
         /// <summary>
         /// potrace draw
@@ -77,7 +130,7 @@ namespace FYP16_WinFormsApp_II
                     Potrace.Curve[] Curves = (Potrace.Curve[])CurveArray[j];
                     float factor = 1;
                     if (checkBox2.Checked)
-                        //factor = (trackBar1.Value + 1);
+                        factor = (trackBar1.Value + 1);
                     for (int k = 0; k < Curves.Length; k++)
                     {
                         if (Curves[k].Kind == Potrace.CurveKind.Bezier)
@@ -93,6 +146,7 @@ namespace FYP16_WinFormsApp_II
             }
             if (checkBox1.Checked)
                 g.DrawPath(Pens.Red, gp);
+            if (checkBox2.Checked) showPoints();
 
         }
         private void showPoints()
@@ -117,29 +171,41 @@ namespace FYP16_WinFormsApp_II
             }
         }
         /// <summary>
-        /// Load img edge detect
+        /// potrace Load file
+        /// needs to apply filter and then trace
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// 
-        Bitmap Bitmap; //<<----------------------- this
-        private void button1_Click(object sender, EventArgs e)
+        bool[,] Matrix;
+        ArrayList ListOfCurveArray;
+        Bitmap Bitmap;
+        private void button1_Click(object sender, EventArgs e)  
         {
+            //DialogResult D = openFileDialog1.ShowDialog();
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Title = "Select an image file.";
             ofd.Filter = "Png Images(*.png)|*.png|Jpeg Images(*.jpg)|*.jpg";
             ofd.Filter += "|Bitmap Images(*.bmp)|*.bmp";
 
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if /*(D == DialogResult.OK)*/ (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                radioButton1.Checked = true;
+                //pictureBox1.Visible = true;
+                ListOfCurveArray = null;
+                //if (Bitmap != null) Bitmap.Dispose();
+                Bitmap = new Bitmap(ofd.FileName);
+                
+                
                 StreamReader streamReader = new StreamReader(ofd.FileName);
                 originalBitmap = (Bitmap)Bitmap.FromStream(streamReader.BaseStream);
                 streamReader.Close();
 
                 previewBitmap = originalBitmap.CopyToThisCanvas(pictureBox1.Width);
                 pictureBox1.Image = previewBitmap;
-
+                //refreshMatrix();
                 ApplyFilter(true);
+                
             }
         }
         /// <summary>
@@ -172,11 +238,7 @@ namespace FYP16_WinFormsApp_II
             refreshPicture();
 
         }
-
-        bool[,] Matrix;
-        ArrayList ListOfCurveArray;
         
-
         /// <summary>
         /// Vectorize 
         /// </summary>
@@ -204,7 +266,7 @@ namespace FYP16_WinFormsApp_II
             }
             //optimize the path p, replacing sequences of Bezier segments by a
             //single segment when possible.
-            Potrace.curveoptimizing = true; //checkBox4.Checked;
+            Potrace.curveoptimizing = true; //checkBox3.Checked;
             Matrix = Potrace.BitMapToBinary(Bitmap, trackBar2.Value);
             Potrace.potrace_trace(Matrix, ListOfCurveArray);
             refreshMatrix();
@@ -219,15 +281,16 @@ namespace FYP16_WinFormsApp_II
         {
             if (ListOfCurveArray == null)
             {
-                MessageBox.Show("Please vectorize the image first");
-                return;
-            }
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                string s = Potrace.Export2SVG(ListOfCurveArray, Bitmap.Width, Bitmap.Height);
-                System.IO.StreamWriter FS = new System.IO.StreamWriter(saveFileDialog1.FileName);
-                FS.Write(s);
-                FS.Close();
+                    MessageBox.Show("Please vectorize the image first");
+                    return;
+                
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    string s = Potrace.Export2SVG(ListOfCurveArray, Bitmap.Width, Bitmap.Height);
+                    System.IO.StreamWriter FS = new System.IO.StreamWriter(saveFileDialog1.FileName);
+                    FS.Write(s);
+                    FS.Close();
+                }
             }
         }
         /// <summary>
@@ -237,9 +300,42 @@ namespace FYP16_WinFormsApp_II
         /// <param name="e"></param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            refreshMatrix();
+        }
+        
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            refreshPicture();
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            refreshPicture();
         }
         /// <summary>
+        /// trackbar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void trackBar1_Scroll_1(object sender, EventArgs e)
+        {
+            refreshPicture();
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            refreshMatrix();
+            float p = 100 * (float)trackBar2.Value / (float)255;
+            //textBox1.Text = p.ToString("00");
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            refreshPicture();
+        }
+
+        /*/// <summary>
         /// img edge detection
         /// </summary>
         /// <param name="preview"></param>
@@ -295,9 +391,9 @@ namespace FYP16_WinFormsApp_II
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ApplyFilter(true);
-        }
-        
-        private void Form1_Load(object sender, EventArgs e)
+        }*/
+
+        /*private void Form1_Load(object sender, EventArgs e)
         {
             float p = 100 * (float)trackBar2.Value / (float)255;
             //textBox1.Text = p.ToString("00");
@@ -305,38 +401,6 @@ namespace FYP16_WinFormsApp_II
             textBox3.Text = Potrace.alphamax.ToString();
             textBox2.Text = Potrace.opttolerance.ToString();
 
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            refreshPicture();
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            refreshPicture();
-        }
-        /// <summary>
-        /// trackbar
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void trackBar1_Scroll_1(object sender, EventArgs e)
-        {
-            refreshPicture();
-        }
-
-        private void trackBar2_Scroll(object sender, EventArgs e)
-        {
-            refreshMatrix();
-            float p = 100 * (float)trackBar2.Value / (float)255;
-            //textBox1.Text = p.ToString("00");
-        }
-
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            refreshPicture();
-        }
-
+        }*/
     }
 }
